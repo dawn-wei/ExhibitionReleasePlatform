@@ -1,0 +1,202 @@
+{% extends 'users/base.html' %}
+
+{% block mainpanel %}
+
+    <script>
+        //初始参数个数
+        var varCount = 1;
+ 
+        $(function () {
+          //新增按钮点击
+            $('#addVar').on('click', function(){
+                varCount++;
+                $node = '<p><label for="var'+varCount+'">项目 '+varCount+': </label>'
+                  + '<input type="text" name="var'+varCount+'" id="var'+varCount+'">'
+                  + '<span class="removeVar">删除</span></p>';
+            //新表单项添加到“新增”按钮前面
+                $(this).parent().before($node);
+            });
+ 
+          //删除按钮点击
+          $('form').on('click', '.removeVar', function(){
+            $(this).parent().remove();
+            //varCount--;
+          });
+        });
+    </script>
+
+
+			<div class="main-panel">
+				<div class="content">
+					<div class="container-fluid">
+						<h4 class="page-title">填写项目基本信息</h4>
+						<div class="row">
+							<div class="col-md-6">
+								<div class="card">
+									<div class="card-header">
+										<div class="card-title">添加项目</div>
+									</div>
+
+
+									<form action = "/new_project_submit/" method = "POST" onsubmit="return checkform()" enctype="multipart/form-data">
+										{% csrf_token %}
+										<div class="card-body">
+
+											<div class="form-group">
+												<label>活动类型</label>
+												<select name = "select" class="form-control" style="width:130px;"> <!--type="password"  placeholder="Password" required=""-->
+									              <option value="1">文化节</option>
+									              <option value="2">博览会</option>
+									              <option value="3">毕业展</option>
+									            </select>
+											</div>
+
+											<div class="form-group">
+												<label for="email">项目名称</label>
+												<input type="text" class="form-control" placeholder="" name = "project_name">
+											</div>
+											<div class="form-group">
+												<label for="password">项目地点</label>
+												<input type="text" class="form-control" placeholder="" name = "project_location">
+											</div>
+											
+											<div class="form-group">
+												<label for="password">项目起始时间</label>
+												<input type="datetime-local" class="form-control" placeholder="" name = "project_time1">
+											</div>
+											<div class="form-group">
+												<label for="password">项目结束时间</label>
+												<input type="datetime-local" class="form-control" placeholder="" name = "project_time2">
+											</div>
+																																	
+											<div class="form-group">
+												<label for="exampleFormControlFile1">导入地图</label>
+												<input type="file" name = "project_map" id="project_map">
+											</div>
+
+											<div class="form-group">
+												<label for="password">主办方</label>
+												<input type="text" class="form-control" placeholder="" name = "project_host">
+											</div>
+
+											<div class="form-group">
+												<label for="comment">项目简介</label>
+												<textarea type="text" class="form-control" id="project_introduction" rows="5" name="project_introduction">
+
+												</textarea>
+											</div>
+
+											<div class="form-check">
+												<label class="form-check-label">
+													<input class="form-check-input" type="checkbox" value="">
+													<span class="form-check-sign">Agree with terms and conditions</span>
+												</label>
+											</div>
+
+											</div>
+											<div class="card-action">
+												<button class="btn btn-success" type="submit">Submit</button>
+												<button class="btn btn-danger">Cancel</button>
+											</div>
+										</div>
+
+									</form>
+
+<!--
+									<form method="POST"> {% csrf_token %}
+										{{ form.as_p }}
+										<div class="card-action">
+												<button class="btn btn-success" type="submit">Submit</button>
+												<button class="btn btn-danger">Cancel</button>
+										</div>
+									</form>
+-->
+								</div>
+
+								<div class="col-md-6">
+									<div class="card">
+										<div class="card-header">
+											<div class="card-title"> 添加活动 </div>
+										</div>
+										<div class="card-body">
+											<div class="form-group">
+												<label for="squareInput">活动类型</label>
+												<select class="form-control input-pill" name="activity_type">
+													<option>1</option>
+													<option>2</option>
+													<option>3</option>
+													<option>4</option>
+													<option>5</option>
+												</select>
+											</div>
+											<div class="form-group">
+												<label for="squareSelect">活动名称</label>
+												<input type="text" class="form-control input-square" name="activity_name" placeholder="">
+											</div>
+											<div class="form-group">
+												<label for="pillInput"> 活动地点 </label>
+												<input type="text" class="form-control input-square" name="activity_location" placeholder="">
+											</div>
+											<div class="form-group">
+												<label for="pillSelect">活动开始时间</label>
+												<input type="datetime-local" class="form-control" placeholder="" name = "activity_time1">
+											</div>
+											<div class="form-group">
+												<label for="solidInput">活动结束时间</label>
+												<input type="datetime-local" class="form-control" placeholder="" name = "project_time2">
+											</div>
+											<div class="form-group">
+												<label for="solidSelect">活动主办方</label>
+												<input type="text" class="form-control input-square" name="activity_host" placeholder="">
+											</div>
+											<div class="form-group">
+												<label for="comment">活动简介</label>
+												<textarea type="text" class="form-control" rows="5" name="activity_introduction">
+												</textarea>
+											</div>
+										</div>
+
+										<div class="card-action">
+											<button class="btn btn-success" id="addVar">增加活动</button>
+										</div>
+
+										<div class="card-action">
+											<button class="btn btn-success">Submit</button>
+											<button class="btn btn-danger">Cancel</button>
+										</div>
+									</div>
+								
+								</div>
+
+							</div>
+						</div>
+					</div>
+					<footer class="footer">
+						<div class="container-fluid">
+							<nav class="pull-left">
+								<ul class="nav">
+									<li class="nav-item">
+										<a class="nav-link" href="#">
+											ThemeKita
+										</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" href="#">
+											Help
+										</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" href="#">
+											Licenses
+										</a>
+									</li>
+								</ul>
+							</nav>
+							<div class="copyright ml-auto">
+								2018, made with <i class="la la-heart heart text-danger"></i> by <a href="#">ThemeKita</a> - More Templates <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a> - Collect from <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a></div>				
+						</div>
+					</footer>
+				</div>
+			</div>
+
+{% endblock %}
