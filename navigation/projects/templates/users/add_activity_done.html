@@ -1,0 +1,78 @@
+{% extends 'users/base.html' %}
+
+{% block mainpanel %}
+
+<script>
+    var activity_add_map
+</script>
+
+	<div class="main-panel">
+				<div class="content">
+					<div class="container-fluid">
+						<h4 class="page-title">当前项目: {{project.project_name}}</h4>
+						<div class="row">
+                                              
+
+								<div class="col-md-12">
+									<div class="card">
+										<div class="card-header">
+											<h4 class="card-title"> {{ activity.activity_name }} </h4>
+											<p class="card-category">{{ activity.activity_introduction }}</p>
+										</div>
+										<div class="card-body">
+											<p class="demo">
+												<button class="btn btn-default"> {{ activity.activity_type }} </button>
+
+												<button class="btn btn-primary">{{ activity.activity_location }}</button>
+
+												<button class="btn btn-info">{{ activity.activity_host }}</button>
+
+												<button class="btn btn-success">{{ activity.activity_time1 }} - {{activity.activity_time2}}</button>		
+
+											</p>
+                                        </div>
+                                   
+                                        <script> activity_add_map = {{activity.id}} </script>
+                                        <!--<button class="btn btn-link" onclick="openwindow4(activity_add_map)" >添加地图</button>-->     
+
+									</div>
+								</div>
+
+						</div>
+					</div>
+
+				</div>
+    </div>
+    
+    <script>
+            function openwindow4(activity_add_map) {
+                
+                var data_ = {
+                    "activity_id": activity_add_map
+                };
+    
+                //var ele = document.getElementById("setmap");
+                //alert(ele.innerHTML);
+                //ele.innerHTML = project_id_selected;
+    
+                $.ajax({
+                    url: "/set_activity_add_map/",
+                    type: "POST",
+                    data: JSON.stringify(data_),
+                    //data: {"project_id": project_id_selected},
+                    dataType: 'json',
+                    async: false,
+                    success: function(data){
+                        //alert("OK");
+                    },
+                    error: function(err){
+                        //alert("error");
+                    }
+                });
+    
+                window.open('/map.html');
+    
+            }
+    </script>
+
+{% endblock %}

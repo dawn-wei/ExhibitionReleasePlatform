@@ -1,0 +1,86 @@
+<!doctype html>
+<html class="no-js" lang="">
+
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="apple-touch-icon" href="icon.png">
+  <!-- Place favicon.ico in the root directory -->
+
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/main.css">
+
+  <meta name="theme-color" content="#fafafa">
+</head>
+
+<!-- **********这里********** -->
+<body onload="init()">
+  <!--[if IE]>
+    <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
+  <![endif]-->
+
+  <!-- Add your site or application content here -->
+
+  <!--**********这里********** -->
+  <div id="DrawTool">
+    <div id="DrawTool_Shape">
+      <input id="PointBtn" src="img/dot.png" onclick="switchToPointMode()" class="toolButton" type="image" />
+      <input id="PolygonBtn" src="img/polygon.png" onclick="switchToPolygonMode()" class="toolButton" type="image" />
+      <input id="RectangleBtn" src="img/rect.png" onclick="switchToRectMode()" class="toolButton" type="image" />
+    </div>
+    <div></div>
+    <div id="DrawTool_Color">
+
+    </div>
+  </div>
+  <div id="SelectThenDo">
+    <input id="SelectBtn" value="选择" onclick="selectMultiMarkers()" class="selectButton" type="button"/>
+    <input id="assignGPSBtn" value="设置为地点" onclick="assignGPStoActivity()" class="selectButton" type="button"/>
+    <input id="DeleteBtn" value="删除" onclick="deleteCurrentMarkers()" class="selectButton" type="button"/>
+    <input id="AddNewFloorBtn" value="添加楼层" onclick="AddNewFloorFunction()" class="selectButton" type="button"/>
+    <input id="AddDetailPageBtn" value="添加详情页" onclick="AddDetailPageFunction()" class="selectButton" type="button"/>
+  </div>
+  <div id="SwitchFloorAndDetail">
+    <select name="当前楼层" id="floorSelect"  onchange="selectFloorOnChange(this)"></select>
+    <select name="当前楼层" id="pageSelect"  onchange="selectPageOnChange(this)"></select>
+  </div>
+  <div id="DetailPageAddition">
+    <label for="file" class='btn btn-success'>上传底图</label>
+    <input type="file" name="file" id="file" accept="image/jpg" onchange="addGroundOverlay(this.id)"/>
+    <input id="PreviewH5Btn" value="预览详情页" onclick="selectMultiMarkers()" class="selectButton" type="button"/>
+  </div>
+  <div>
+    <input id="SaveJsonBtn" src="img/saveAsJson.png" onclick="saveAllToGeoJSON()" class="toolButton" type="image" />
+  </div>
+
+  <div id="container"></div>
+  <script src="js/vendor/modernizr-3.7.1.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script>window.jQuery || document.write('<script src="js/vendor/jquery-3.3.1.min.js"><\/script>')</script>
+  <script src="js/plugins.js"></script>
+  <script src="js/main.js"></script>
+
+  <!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
+  <script>
+    window.ga = function () { ga.q.push(arguments) }; ga.q = []; ga.l = +new Date;
+    ga('create', 'UA-XXXXX-Y', 'auto'); ga('set','transport','beacon'); ga('send', 'pageview')
+  </script>
+  <!--<script src="https://www.google-analytics.com/analytics.js" async defer></script>-->
+  <script charset="utf-8" src="https://map.qq.com/api/js?v=2.exp&key=NTOBZ-P5VKX-HNE4Y-7YCTP-WP3UZ-VLFTQ&libraries=drawing,geometry,place,convertor,visualization"></script>
+
+  <!--**********这里********** -->
+  <script src="js/main.js"></script>
+  <script src="js/define.js"></script>
+  <script src="js/define_paint.js"></script>
+  <script src="js/define_paintFunction.js"></script>
+  <script src="js/define_select.js"></script>
+  <script src="js/define_save.js"></script>
+  <script src="js/define_bgdPicture.js"></script>
+
+</body>
+
+</html>

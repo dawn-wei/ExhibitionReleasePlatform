@@ -1,0 +1,61 @@
+
+@font-face {font-family: "bali-icon";
+  src: url('iconfont.eot?t=1518085951885'); /* IE9*/
+  src: url('iconfont.eot?t=1518085951885#iefix') format('embedded-opentype'), /* IE6-IE8 */
+  url('iconfont.woff?t=1518085951885') format('woff'),
+  url('iconfont.ttf?t=1518085951885') format('truetype'), /* chrome, firefox, opera, Safari, Android, iOS 4.2+*/
+  url('iconfont.svg?t=1518085951885#bali-icon') format('svg'); /* iOS 4.1- */
+}
+
+.bali-icon {
+  font-family:"bali-icon" !important;
+  font-size:16px;
+  font-style:normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.bali-icon-location:before { content: "\e72e"; }
+
+.bali-icon-cancel:before { content: "\e615"; }
+
+.bali-icon-forward:before { content: "\e608"; }
+
+.bali-icon-pencil:before { content: "\e670"; }
+
+.bali-icon-box-open:before { content: "\e6bb"; }
+
+.bali-icon-house:before { content: "\e659"; }
+
+.bali-icon-box:before { content: "\e6e5"; }
+
+.bali-icon-tago:before { content: "\ef09"; }
+
+.bali-icon-confirm:before { content: "\e6da"; }
+
+.bali-icon-info:before { content: "\e635"; }
+
+.bali-icon-add:before { content: "\e747"; }
+
+.bali-icon-user:before { content: "\e638"; }
+
+.bali-icon-mobile:before { content: "\e631"; }
+
+.bali-icon-calendar:before { content: "\e606"; }
+
+.bali-icon-remove:before { content: "\e748"; }
+
+.bali-icon-overview:before { content: "\e6a1"; }
+
+.bali-icon-edit:before { content: "\e6a2"; }
+
+.bali-icon-market:before { content: "\e6a3"; }
+
+.bali-icon-admin:before { content: "\e6a4"; }
+
+.bali-icon-design:before { content: "\e6a5"; }
+
+.bali-icon-rd:before { content: "\e6a6"; }
+
+.bali-icon-check-circle:before { content: "\e628"; }
+

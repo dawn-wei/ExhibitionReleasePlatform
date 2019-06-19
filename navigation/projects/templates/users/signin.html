@@ -1,0 +1,79 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>会展发布平台</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="{% static 'signin/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+
+  <!-- Custom fonts for this template -->
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,200i,300,300i,400,400i,600,600i,700,700i,900,900i" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Merriweather:300,300i,400,400i,700,700i,900,900i" rel="stylesheet">
+  <link href="{% static 'signin/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+
+  <!-- Custom styles for this template -->
+  <link href="{% static 'signin/css/coming-soon.min.css' %}" rel="stylesheet">
+
+</head>
+
+<body>
+
+  <div class="overlay"></div>
+  <video playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
+    <source src="{% static 'signin/mp4/bg.mp4' %}" type="video/mp4">
+  </video>
+
+  <div class="masthead">
+    <div class="masthead-bg"></div>
+    <div class="container h-100">
+      <div class="row h-100">
+        <div class="col-12 my-auto">
+          <div class="masthead-content text-white py-5 py-md-0">
+            <h1 class="mb-3">会展发布平台</h1>
+            <p class="mb-5">专业的会展活动发布平台</p>
+
+            <form action = "/check_signin/" method = "POST" onsubmit="return checkform()" enctype="multipart/form-data">
+              
+            {% csrf_token %}
+            <p>主办方账号</p>
+            <div class="input-group input-group-newsletter">
+              <input name="email" type="email" required="required" class="form-control" placeholder="Enter email..." aria-label="Enter email..." aria-describedby="basic-addon">
+            </div>
+
+            <p>密码</p>
+            <div class="input-group input-group-newsletter">
+            <input name="password" type="password" required="required" class="form-control" placeholder="Enter password..." aria-label="Enter password..." aria-describedby="basic-addon">
+            </div>
+
+            <div class="input-group-append">
+              <button class="btn btn-secondary" type="submit">sign in!</button>
+            </div>
+            
+            </form>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="{% static 'signin/vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'signin/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+  <!-- Custom scripts for this template -->
+  <script src="{% static 'signin/js/coming-soon.min.js' %}"></script>
+
+</body>
+
+</html>

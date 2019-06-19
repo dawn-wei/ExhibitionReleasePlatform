@@ -1,0 +1,626 @@
+
+{% extends 'users/base.html' %}
+
+{% load staticfiles %}
+
+<script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+
+
+{% block mainpanel %}
+<script>
+		var hot1, hot2, ho3, hot4;
+		var i = 1;
+</script>
+
+<div class="main-panel">
+	<div class="content">
+		<div class="container-fluid">
+			<h4 class="page-title">Dashboard</h4>
+			<h6>活动统计区</h6>
+
+			
+			<div class="row">
+
+				<div class="col-md-3">
+						<div class="card card-stats card-primary">
+							<div class="card-body ">
+								<div class="row">
+									<div class="col-5">
+										<div class="icon-big text-center">
+											<i class="la la-check-circle"></i>
+										</div>
+									</div>
+									<div class="col-7 d-flex align-items-center">
+										<a href="{% url 'ongoing_projects' %}" class="numbers">
+
+											<div class="numbers">
+												<p class="card-category">正在进行中</p>
+												<h4 class="card-title">{{ongoing.count}}</h4>
+											</div>
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				<div class="col-md-3">
+					<div class="card card-stats card-success">
+						<div class="card-body ">
+							<div class="row">
+								<div class="col-5">
+									<div class="icon-big text-center">
+										<i class="la la-bar-chart"></i>
+									</div>
+								</div>
+
+								<div class="col-7 d-flex align-items-center">
+									<a href="{% url 'waiting_projects' %}" class="numbers">
+										<p class="card-category">尚未开始</p>										
+										<h4 class="card-title">{{waiting.count}}</h4>										
+									</a>
+									
+								</div>
+							
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="card card-stats card-danger">
+						<div class="card-body">
+							<div class="row">
+								<div class="col-5">
+									<div class="icon-big text-center">
+										<i class="la la-newspaper-o"></i>
+									</div>
+								</div>
+
+								<a href="{% url 'historic_projects' %}">
+									<div class="col-7 d-flex align-items-center">
+										<a href="{% url 'historic_projects' %}" class="numbers">
+											<p class="card-category">历史项目</p>
+											<h4 class="card-title">{{historic.count}}</h4>
+										</a>
+									</div>
+								</a>
+
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+
+			<div class="row row-card-no-pd">
+
+<!--
+				<div class="col-md-4">
+					<div class="card">
+						<div class="card-body">
+							<p class="fw-bold mt-1">My Balance</p>
+							<h4><b>$ 3,018</b></h4>
+							<a href="#" class="btn btn-primary btn-full text-left mt-3 mb-3"><i class="la la-plus"></i> Add Balance</a>
+						</div>
+						<div class="card-footer">
+							<ul class="nav">
+								<li class="nav-item"><a class="btn btn-default btn-link" href="#"><i class="la la-history"></i> History</a></li>
+								<li class="nav-item ml-auto"><a class="btn btn-default btn-link" href="#"><i class="la la-refresh"></i> Refresh</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			-->
+
+<!--按：1、项目搜索次数；2、项目内活动搜索次数；3、评价情感-->
+
+<!--按：1、活动搜索次数；2、评价情感-->
+
+			<div class="col-md-5">
+					<div class="card">
+						<h5> 热门项目 </h5>
+					
+
+						<div class="card-body">
+
+							<div class="progress-card">
+								<div class="d-flex justify-content-between mb-1">
+									<p id="hot1_project">
+										{{name1}}
+									</p>
+									<span id="hot1_count">
+										
+									</span>
+								</div>
+								<div class="progress mb-2" style="height: 7px;">
+									<div id="pro1" class="progress-bar bg-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" data-toggle="tooltip" data-placement="top"></div>
+								</div>
+							</div>
+
+
+							
+							<div class="progress-card">
+								<div class="d-flex justify-content-between mb-1">
+									<span class="text-muted" id="hot2_project">
+										{{name2}}
+									</span>
+									<span class="text-muted fw-bold" id="hot2_count"> 
+									</span>
+								</div>
+								<div class="progress mb-2" style="height: 7px;">
+									<div id="pro2" class="progress-bar bg-info" role="progressbar" aria-valuemin="0" aria-valuemax="100" data-toggle="tooltip" data-placement="top"></div>
+								</div>
+							</div>
+							
+							<div class="progress-card">
+								<div class="d-flex justify-content-between mb-1">
+									<span class="text-muted" id="hot3_project">
+										{{name3}}
+									</span>
+									<span class="text-muted fw-bold" id="hot3_count">
+									</span>
+								</div>
+								<div class="progress mb-2" style="height: 7px;">
+									<div id="pro3" class="progress-bar bg-primary" role="progressbar" aria-valuemin="0" aria-valuemax="100" data-toggle="tooltip" data-placement="top"></div>
+								</div>
+							</div>
+							<div class="progress-card">
+								<div class="d-flex justify-content-between mb-1">
+									<span class="text-muted" id="hot4_project">
+										{{name4}}
+									</span>
+									<span class="text-muted fw-bold" id="hot4_count">
+									</span>
+								</div>
+								<div class="progress mb-2" style="height: 7px;">
+									<div id="pro4" class="progress-bar bg-warning" role="progressbar" aria-valuemin="0" aria-valuemax="100" data-toggle="tooltip" data-placement="top"></div>
+								</div>
+							</div>
+							
+
+							{% for hot in hot_projects %}
+
+							<script>
+
+								if(i == 1){
+									document.getElementById("hot1_count").innerHTML = {{hot.count}};
+									//document.getElementById("hot1_project").innerHTML = {{name1}};
+									document.getElementById("pro1").style = "width: {{hot.count}}%";
+									document.getElementById("pro1").title = "{{hot.count}}%";
+
+
+								}
+								
+								else if(i == 2){
+									
+									document.getElementById("hot2_count").innerHTML = {{hot.count}};
+									document.getElementById("pro2").style = "width: {{hot.count}}%";
+
+									//document.getElementById("hot2_project").innerHTML = {{hot.project_name}};
+									document.getElementById("pro2").title = "{{hot.count}}%";
+
+
+								}
+								else if(i == 3){
+
+									document.getElementById("hot3_count").innerHTML = {{hot.count}};
+									document.getElementById("pro3").style = "width: {{hot.count}}%";
+
+									//document.getElementById("hot3_project").innerHTML = {{hot.project_name}};
+									document.getElementById("pro3").title = "{{hot.count}}%";
+
+							
+								}
+								else{
+
+									document.getElementById("hot4_count").innerHTML = {{hot.count}};
+									document.getElementById("pro4").style = "width: {{hot.count}}%";
+
+									//document.getElementById("hot4_project").innerHTML = {{hot.project_name}};	
+									document.getElementById("pro4").title = "{{hot.count}}%";
+																
+								}
+							
+								i = i + 1;
+								
+							</script>								
+
+							{% endfor %}
+
+						</div>
+					</div>
+			</div>
+
+
+
+				<div class="col-md-5">
+					<div class="card">
+						<h5> 热门活动 </h5>
+
+						<div class="card-body">
+
+							<div class="progress-card">
+								<div class="d-flex justify-content-between mb-1">
+									<span class="text-muted" id="hot1_activity">
+										{{name11}}
+									</span>
+									<span class="text-muted fw-bold" id="hot1_activity_count">
+									</span>
+								</div>
+								<div class="progress mb-2" style="height: 7px;">
+									<div id="acti1" class="progress-bar bg-success" role="progressbar" aria-valuemin="0" aria-valuemax="100" data-toggle="tooltip" data-placement="top"></div>
+								</div>
+							</div>
+							<div class="progress-card">
+								<div class="d-flex justify-content-between mb-1">
+									<span class="text-muted" id="hot2_activity">
+										{{name12}}
+									</span>
+									<span class="text-muted fw-bold" id="hot2_activity_count"></span>
+								</div>
+								<div class="progress mb-2" style="height: 7px;">
+									<div id="acti2" class="progress-bar bg-info" role="progressbar" aria-valuemin="0" aria-valuemax="100" data-toggle="tooltip" data-placement="top"></div>
+								</div>
+							</div>
+							<div class="progress-card">
+								<div class="d-flex justify-content-between mb-1">
+									<span class="text-muted" id="hot3_activity">
+										{{name13}}
+									</span>
+									<span class="text-muted fw-bold" id="hot3_activity_count"></span>
+								</div>
+								<div class="progress mb-2" style="height: 7px;">
+									<div id="acti3" class="progress-bar bg-primary" role="progressbar" aria-valuemin="0" aria-valuemax="100" data-toggle="tooltip" data-placement="top"></div>
+								</div>
+							</div>
+							<div class="progress-card">
+								<div class="d-flex justify-content-between mb-1">
+									<span class="text-muted" id="hot4_activity">
+										{{name14}}
+									</span>
+									<span class="text-muted fw-bold" id="hot4_activity_count"></span>
+								</div>
+								<div class="progress mb-2" style="height: 7px;">
+									<div id="acti4" class="progress-bar bg-warning" role="progressbar" aria-valuemin="0" aria-valuemax="100" data-toggle="tooltip" data-placement="top"></div>
+								</div>
+							</div>
+
+							<script>
+								i = 1;
+							</script>
+
+							{% for hot in hot_activities %}
+
+							<script>
+												
+								if(i == 1){
+
+									document.getElementById("hot1_activity_count").innerHTML = {{hot.count}};
+									document.getElementById("acti1").style = "width: {{hot.count}}%";
+									document.getElementById("acti1").title = "{{hot.count}}%";				
+		
+								}
+								
+								else if(i == 2){
+									
+									document.getElementById("hot2_activity_count").innerHTML = {{hot.count}};
+									document.getElementById("acti2").style = "width: {{hot.count}}%";
+
+									document.getElementById("acti2").title = "{{hot.count}}%";				
+
+								}
+								else if(i == 3){
+
+									document.getElementById("hot3_activity_count").innerHTML = {{hot.count}};
+									document.getElementById("acti3").style = "width: {{hot.count}}%";
+
+									document.getElementById("acti3").title = "{{hot.count}}%";				
+							
+								}
+								else{
+
+									document.getElementById("hot4_activity_count").innerHTML = {{hot.count}};
+									document.getElementById("acti4").style = "width: {{hot.count}}%";
+
+									document.getElementById("acti4").title = "{{hot.count}}%";												
+								}
+								
+								
+								i = i + 1;
+								
+							</script>								
+
+							{% endfor %}
+
+
+							<script>
+								i = 1;
+							</script>
+
+							{% for acti in hot_activity_names %}
+
+							<script>
+							
+								if(i == 1){
+									
+									document.getElementById("hot1_activity").innerHTML = {{acti.id}};
+									
+									/*
+									var id_ = {{pro.id}};
+									var data_ = {"id": id_};
+									
+									$.ajax({
+										url: "/get_project_name/",
+										type: "POST",
+										data: JSON.stringify(data_),
+										dataType: 'json',
+										success: function(data){
+											//document.getElementById("hot1_project").innerHTML = "hello";
+
+										},
+										error: function(err){
+											alert("error");
+										}
+									});
+									*/
+									
+								}
+								
+								else if(i == 2){
+									
+									document.getElementById("hot2_activity").innerHTML = {{acti.id}};
+								}
+								else if(i == 3){
+
+									document.getElementById("hot3_activity").innerHTML = {{acti.id}};
+								}
+								else{
+
+									document.getElementById("hot4_activity").innerHTML = {{acti.id}};
+								}
+								
+								i = i + 1;
+							</script>								
+
+							{% endfor %}
+
+
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+			<div class="row row-card-no-pd">
+				<h6>访客统计区</h6>
+
+				<div class="col-md-3">
+					<div class="card card-stats card-warning">
+						<div class="card-body ">
+							<div class="row">
+								<div class="col-5">
+									<div class="icon-big text-center">
+										<i class="la la-users"></i>
+									</div>
+								</div>
+
+								<div class="col-7 d-flex align-items-center">
+										<p class="card-category">历史访客</p>
+										<h4 class="card-title">500</h4>
+							
+								</div>
+
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-md-3">
+						<div class="card card-stats card-warning">
+							<div class="card-body ">
+								<div class="row">
+									<div class="col-5">
+										<div class="icon-big text-center">
+											<i class="la la-users"></i>
+										</div>
+									</div>
+
+										<div class="col-7 d-flex align-items-center">
+												<p class="card-category">今日访客</p>
+												<h4 class="card-title">30</h4>
+									
+										</div>
+
+								</div>
+							</div>
+						</div>
+				</div>
+			
+<!--
+				<div class="col-md-4">
+					<div class="card">
+						<div class="card-header">
+							<h4 class="card-title">当前访客统计</h4>
+							<p class="card-category">
+							各项目访客统计</p>
+						</div>
+						<div class="card-body">
+							<div id="monthlyChart" class="chart chart-pie"></div>
+						</div>
+					</div>
+				</div>
+			-->
+<!--
+				<div class="col-md-3">
+					<div class="card">
+						<div class="card-header">
+							<h4 class="card-title">Task</h4>
+							<p class="card-category">Complete</p>
+						</div>
+						<div class="card-body">
+							<div id="task-complete" class="chart-circle mt-4 mb-3"></div>
+						</div>
+						<div class="card-footer">
+							<div class="legend"><i class="la la-circle text-primary"></i> Completed</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-md-9">
+					<div class="card">
+						<div class="card-header">
+							<h4 class="card-title">World Map</h4>
+							<p class="card-category">
+							Map of the distribution of users around the world</p>
+						</div>
+						<div class="card-body">
+							<div class="mapcontainer">
+								<div class="map">
+									<span>Alternative content for the map</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			-->
+
+
+			</div>
+
+			<div class="row">
+				<h6>评论区</h6><br>
+			<!--
+				<div>
+					<div class="col-md-6">
+							<div class="card card-tasks">
+								<div class="card-header ">
+									<h4 class="card-title">最新评论</h4>
+								</div>
+								<div class="card-body ">
+									<div class="table-full-width">
+										<table class="table">
+											<thead>
+												<tr>
+										
+													<th>user id</th>
+													<th>comment</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>													
+													<td>id1</td>
+													<td class="td-actions text-right">
+														good
+													</td>
+												</tr>
+
+												<tr>
+									
+													<td> id2 </td>
+													<td class="td-actions text-right">
+														excellent
+													</td>
+												</tr>
+												<tr>
+												
+													<td> id3
+													</td>
+													<td class="td-actions text-right">
+														good
+													</td>
+												</tr>
+												<tr>
+												
+													<td>id4</td>
+													<td class="td-actions text-right">
+														good
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+								
+							</div>
+						</div>
+
+				</div>
+
+			-->
+
+			<div class="comments">
+				<!--
+				<div class="comment-wrap">
+					<div class="photo">
+						<div class="avatar" style="background-image: url('/assets/coolboy.jpg')"></div>
+					</div>
+					<div class="comment-block">
+						<form action="">
+							<textarea name="" id="" cols="30" rows="3" placeholder="Say somthing..."></textarea>
+						</form>
+					</div>
+				</div>
+				-->
+			
+				<div class="comment-wrap">
+					<div class="photo">
+						<div class="avatar" style="background-image: url('/assets/coolgirl.jpg')">user1</div>
+					</div>
+					<div class="comment-block">
+						<p class="comment-text">活动很有吸引力，期待惊喜！
+
+						</p>
+						<div class="bottom-comment">
+							<div class="comment-date">2019.5.1</div>
+							
+						</div>
+					</div>
+				</div>
+			
+				<div class="comment-wrap">
+					<div class="photo">
+						<div class="avatar" style="background-image: url('/assets/coolboy.jpg')">user2</div>
+					</div>
+					<div class="comment-block">
+						<p class="comment-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto temporibus iste nostrum dolorem natus recusandae incidunt voluptatum. Eligendi voluptatum ducimus architecto tempore, quaerat explicabo veniam fuga corporis totam.</p>
+						<div class="bottom-comment">
+							<div class="comment-date">2019.5.2</div>
+							<!--
+							<ul class="comment-actions">
+								<li class="complain">Complain</li>
+								<li class="reply">Reply</li>
+							</ul>
+							-->
+						</div>
+					</div>
+				</div>
+			</div>
+
+			</div>	
+
+			<!--
+			<div class="row">
+
+				<div class="col-md-8">
+					<div class="card">
+						<div class="card-header">
+							<h4 class="card-title">2018 Sales</h4>
+							<p class="card-category">
+							Number of products sold</p>
+						</div>
+						<div class="card-body">
+							<div id="salesChart" class="chart"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			-->
+
+		</div>
+		
+	</div>
+
+</div>
+
+
+{% endblock %}

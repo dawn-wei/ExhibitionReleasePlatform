@@ -1,0 +1,148 @@
+{% extends 'users/base.html' %}
+
+{% block mainpanel %}
+
+<script>
+	var project_id_selected
+</script>
+	
+	<div class="main-panel">
+				<div class="content">
+					<div class="container-fluid">
+						<h4 class="page-title">已结束的项目</h4>
+						<div class="row">
+
+							{% for project in projects %}
+
+								<div class="col-md-12">
+									<div class="card">
+										<div class="card-header">
+											<h4 class="card-title"> {{ project.project_name }} </h4>
+											<p class="card-category">{{ project.project_introduction }}</p>
+										</div>
+										<div class="card-body">
+											<p class="demo">
+												<button class="btn btn-default"> {{ project.project_type }} </button>
+
+												<button class="btn btn-primary">{{ project.project_location }}</button>
+
+												<button class="btn btn-info">{{ project.project_host }}</button>
+
+												<button class="btn btn-success">{{ project.project_time1 }} - {{project.project_time2}}</button>		
+
+												<button class="btn btn-link">查看项目详情</button>
+												
+												<!--
+												<script> project_id_selected = {{project.id}} </script>
+												<button class="btn btn-link" onclick="openwindow5(project_id_selected)">查看活动</button>
+												-->
+												<button id="displayActivity-{{project.id}}" class="btn btn-link displayacti">查看活动</button>
+												<button id="displaymap-{{project.id}}" class="btn btn-link displaymap">查看地图</button>
+
+
+												
+											</p>
+										</div>
+									</div>
+								</div>
+
+							{% endfor %}
+						</div>
+                    </div>
+                    
+				</div>
+	</div>
+
+	<script>
+
+			jQuery(document).on('click', ".displayacti", function(){
+				var $this = $(this);
+
+				//var id = $this.attr('id').split('-')[1];
+
+				var res = $this.attr('id').split('-');
+				var task = res[0];
+				var id = res[1];
+
+				//do stuff with this id or $this element
+				if(task == "displayActivity"){
+					openwindow5(id);
+				}
+			});
+
+			function openwindow5(project_id_selected) {				
+				var data_ = {
+					"project_id": project_id_selected
+				};
+		
+				//var ele = document.getElementById("setmap");
+				//alert(ele.innerHTML);
+				//ele.innerHTML = project_id_selected;
+		
+				$.ajax({
+					url: "/set_display_activity/",
+					type: "POST",
+					data: JSON.stringify(data_),
+					//data: {"project_id": project_id_selected},
+					dataType: 'json',
+					async: false,
+					success: function(data){
+						//alert("OK");
+					},
+					error: function(err){
+						//alert("error");
+					}
+				});
+		
+				window.open('/display_activities/');
+		
+			}
+
+
+			jQuery(document).on('click', ".displaymap", function(){
+				var $this = $(this);
+
+				//var id = $this.attr('id').split('-')[1];
+
+				var res = $this.attr('id').split('-');
+				var task = res[0];
+				var id = res[1];
+
+				//do stuff with this id or $this element
+				if(task == "displaymap"){
+					openwindow66(id);
+				}
+			});
+
+			function openwindow66(project_id_selected) {				
+				var data_ = {
+					"project_id": project_id_selected
+				};
+
+				//var ele = document.getElementById("setmap");
+				//alert(ele.innerHTML);
+				//ele.innerHTML = project_id_selected;
+
+				$.ajax({
+					url: "/set_display_map/",
+					type: "POST",
+					data: JSON.stringify(data_),
+					//data: {"project_id": project_id_selected},
+					dataType: 'json',
+					async: false,
+					success: function(data){
+						//alert("OK");
+					},
+					error: function(err){
+						//alert("error");
+					}
+				});
+
+				window.open('/map.html/');
+
+			}
+
+
+		</script>
+
+{% endblock %}

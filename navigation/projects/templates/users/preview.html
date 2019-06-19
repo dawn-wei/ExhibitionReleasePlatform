@@ -1,0 +1,45 @@
+{% load staticfiles %}
+
+<html class="no-js" lang="">
+
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!--<link rel="manifest" href="site.webmanifest">-->
+  <link rel="apple-touch-icon" href="icon.png">
+  <!-- Place favicon.ico in the root directory -->
+
+  <link rel="stylesheet" href="{% static 'preview/css/normalize.css' %}">
+  <link rel="stylesheet" href="{% static 'preview/css/main.css' %}">
+
+  <meta name="theme-color" content="#fafafa">
+</head>
+
+<body onload="init()">
+  <!--[if IE]>
+    <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
+  <![endif]-->
+
+  <!-- Add your site or application content here -->
+  <div id="mapContainer" width="100%" height="100%">
+    <dialog open style="color: #D2D2D2; background-color: #4f5b71">
+        <label>当前楼层</label>
+      <select name="当前楼层" id="floorSelect" onchange="selectFloorOnChange(this)"></select>
+    </dialog>
+    <img id="userPoint" src="{% static 'preview/img/heading.png' %}" />
+    <h3 style="position:absolute; top : 10px; left:12px; color: #D2D2D2"></h3>
+    <svg>
+      <rect class="rectangle" width="100%" height="100%" fill="#303845" /></svg>
+  </div>
+  <script src="{% static 'preview/js/vendor/modernizr-3.7.1.min.js' %}"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+  <script>window.jQuery || document.write('<script src="js/vendor/jquery-3.3.1.min.js"><\/script>')</script>
+  <script src="{% static 'preview/js/main.js' %}"></script>
+  <script src="{% static 'preview/js/d3.js' %}"></script>
+</body>
+
+</html>

@@ -1,0 +1,239 @@
+{% extends 'users/base.html' %}
+
+{% block mainpanel %}
+
+<script>
+	var project_id_selected
+</script>
+
+<div class="main-panel">
+				<div class="content">
+					<div class="container-fluid">
+						<h4 class="page-title">尚未开始的项目</h4>
+						<div class="row">
+
+							{% for project in projects %}
+
+								<div class="col-md-12">
+									<div class="card">
+										<div class="card-header">
+											<h4 class="card-title"> {{ project.project_name }} </h4>
+											<p class="card-category">{{ project.project_introduction }}</p>
+										</div>
+										<div class="card-body">
+											<p class="demo">
+												<button class="btn btn-default"> {{ project.project_type }} </button>
+
+												<button class="btn btn-primary">{{ project.project_location }}</button>
+
+												<button class="btn btn-info">{{ project.project_host }}</button>
+
+												<button class="btn btn-success">{{ project.project_time1 }} - {{project.project_time2}}</button>		
+
+												<!--
+												
+												<script> project_id_selected = {{project.id}} </script>
+												
+												<button class="btn btn-link">编辑项目</button>
+
+												<button id="addmap" class="btn btn-link" onclick="openwindow(project_id_selected)" >添加地图</button>
+												
+												<button class="btn btn-link" onclick="openwindow2(project_id_selected)" >添加活动</button>
+												<button class="btn btn-link" onclick="openwindow5(project_id_selected)">查看活动</button>
+												
+												-->
+
+												
+												<button id="editProject-{{project.id}}" class="btn btn-link project">编辑项目</button>
+
+												<button id="addmap-{{project.id}}" class="btn btn-link addmap">添加地图</button>
+												
+												<button id="displayActivity-{{project.id}}" class="btn btn-link displayacti">查看活动</button>
+												
+
+												<button id="addActivity-{{project.id}}" class="btn btn-link addacti">添加活动</button>
+
+
+												<!-- base.html 已加载
+												<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+												-->
+
+										
+
+											</p>
+										</div>
+									</div>
+								</div>
+
+							{% endfor %}
+
+							<!-- js control button-->
+
+							<!--
+							{% for created in map_created %}
+
+							{% if created == 1 %}
+							<script>
+								document.getElementById("addmap").disabled = true;
+							</script>
+							{% endif %}
+
+							{% endfor %}
+							-->
+
+<script>
+		jQuery(document).on('click', ".addmap", function(){
+			var $this = $(this);
+
+			//var id = $this.attr('id').split('-')[1];
+
+			var res = $this.attr('id').split('-');
+			var task = res[0];
+			var id = res[1];
+
+			//do stuff with this id or $this element
+			if(task == "addmap"){
+				openwindow(id);
+			}
+		});
+
+		jQuery(document).on('click', ".displayacti", function(){
+			var $this = $(this);
+
+			//var id = $this.attr('id').split('-')[1];
+
+			var res = $this.attr('id').split('-');
+			var task = res[0];
+			var id = res[1];
+
+			//do stuff with this id or $this element
+			if(task == "displayActivity"){
+				openwindow5(id);
+			}
+		});
+
+		jQuery(document).on('click', ".addacti", function(){
+			var $this = $(this);
+
+			//var id = $this.attr('id').split('-')[1];
+
+			var res = $this.attr('id').split('-');
+			var task = res[0];
+			var id = res[1];
+
+			//do stuff with this id or $this element
+			if(task == "addActivity"){
+				openwindow2(id);
+			}
+		});
+
+
+</script>
+
+
+
+<script>
+	
+	function openwindow2(project_id_selected) {				
+		var data_ = {
+			"project_id": project_id_selected
+		};
+
+		//var ele = document.getElementById("setmap");
+		//alert(ele.innerHTML);
+		//ele.innerHTML = project_id_selected;
+
+		$.ajax({
+			url: "/set_project_id/",
+			type: "POST",
+			data: JSON.stringify(data_),
+			//data: {"project_id": project_id_selected},
+			dataType: 'json',
+			async: false,
+			success: function(data){
+				//alert("OK");
+			},
+			error: function(err){
+				//alert("error");
+			}
+		});
+
+		window.open('/add_activity/');
+
+	}
+</script>
+
+<script>
+	
+	function openwindow5(project_id_selected) {				
+		var data_ = {
+			"project_id": project_id_selected
+		};
+
+		//var ele = document.getElementById("setmap");
+		//alert(ele.innerHTML);
+		//ele.innerHTML = project_id_selected;
+
+		$.ajax({
+			url: "/set_display_activity/",
+			type: "POST",
+			data: JSON.stringify(data_),
+			//data: {"project_id": project_id_selected},
+			dataType: 'json',
+			async: false,
+			success: function(data){
+				//alert("OK");
+			},
+			error: function(err){
+				//alert("error");
+			}
+		});
+
+		window.open('/display_activities/');
+
+	}
+</script>
+
+<script>
+	function openwindow(project_id_selected) {
+		
+		var data_ = {
+			"project_id": project_id_selected
+		};
+
+		//var ele = document.getElementById("setmap");
+		//alert(ele.innerHTML);
+		//ele.innerHTML = project_id_selected;
+
+		$.ajax({
+			url: "/set_session/",
+			type: "POST",
+			data: JSON.stringify(data_),
+			//data: {"project_id": project_id_selected},
+			dataType: 'json',
+			async: false,
+			success: function(data){
+				//alert("OK");
+			},
+			error: function(err){
+				//alert("error");
+			}
+		});
+
+		window.open('/map.html');
+
+	}
+</script>
+
+
+
+
+						</div>
+					</div>
+					
+				</div>
+
+			</div>
+
+
+{% endblock %}

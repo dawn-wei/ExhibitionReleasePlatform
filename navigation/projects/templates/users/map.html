@@ -1,0 +1,196 @@
+{% load staticfiles %}
+
+<html class="no-js" lang="">
+
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!--<link rel="manifest" href="site.webmanifest">-->
+  <link rel="apple-touch-icon" href="icon.png">
+  <!-- Place favicon.ico in the root directory -->
+
+  <link rel="stylesheet" href="{% static 'mapcss/normalize.css' %}">
+  <link rel="stylesheet" href="{% static 'mapcss/main.css' %}">
+  <link rel="stylesheet" href="{% static 'mapcss/bootstrap/css/bootstrap.min.css' %}">
+
+  <meta name="theme-color" content="#fafafa">
+
+</head>
+
+
+<body onload="init()" style="width: 100%;">
+
+
+  <!--[if IE]>
+    <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
+  <![endif]-->
+
+  <!-- Add your site or application content here -->
+
+  <!--**********这里********** -->
+  <div class="row" style="width: 98%; padding-top: 8px; padding-left: 8px;">
+    <div class="col-md-4">
+      <form class="form-inline" role="form">
+        <input type='text' class="form-control" size="2" placeholder='北京' id="regionText" />
+        <div class="input-group">
+          <input id="keyword" class="form-control" size="14" type="textbox" placeholder="请输入地点关键词">
+          <span class="input-group-btn">
+            <input type="button" class="btn btn-primary" value="搜索" onclick="searchKeyword()">
+          </span>
+        </div>
+      </form>
+    </div>
+
+    <div class="col-md-3 btn-group">
+      <input id="PaintBtn" class='btn btn-primary' value="绘制展区模式" onclick="switchToPaintMode()" type="button" />
+      <input id="SelectBtn" class=" btn btn-primary" value="选择模式" onclick="switchToSelectMode()" type="button" />
+    </div>
+
+    <div class="col-md-4">
+      <div id="SwitchFloorAndDetail" class="form-inline form-group">
+        <select name="当前详情页" class="form-control" id="pageSelect" onchange="selectPageOnChange(this)"></select>
+        <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-body">
+                <input type="number" class="form-control" id="floorInput" value="" placeholder="楼层" size="2">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal"
+                  onclick="AddNewFloorFunction()">添加楼层</button>
+              </div>
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal -->
+        </div>
+        <select name="当前楼层" class="form-control" id="floorSelect" onchange="selectFloorOnChange(this)"></select>
+        <input id="AddNewFloorBtn" value="添加楼层" data-toggle="modal" data-target="#myModal1" class=" btn btn-primary"
+          type="button" />
+        <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-body">
+                <input type="text" class="form-control" id="pageInput" value="" placeholder="详情页名称" size="24">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal"
+                  onclick="AddDetailPageFunction()">添加详情页</button>
+              </div>
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal -->
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-1"><input id="SaveJsonBtn" class='btn btn-block btn-success' value="保存地图"
+        onclick="saveAllToGeoJSON()" type="button" /></div>
+        
+  </div>
+  <!---第二行--->
+  <div class="row" style="padding-bottom: 8px;">
+    <div class="col-md-4"><span></span></div>
+    <div id="paintCollapse" class="col-md-4 collapse form-inline">
+        <label>选择图标</label>
+        <img id="currentIcon" src="{% static 'mapimg/icons/icon0.png' %}" data-toggle="collapse" data-target="#iconPanelCollapse"
+          class="colorboard btn btn-xs" />
+        <div id="iconPanelCollapse" class="collapse">
+            <img id="option0" src="{% static 'mapimg/icons/icon0.png' %}" type="image" onclick="switchIcon('0')" data-toggle="collapse"
+              data-target="#iconPanelCollapse" class="btn btn-xs toolButton" />
+          <img id="option1" src="{% static 'mapimg/icons/icon1.png' %}" type="image" onclick="switchIcon('1')" data-toggle="collapse"
+            data-target="#iconPanelCollapse" class="btn btn-xs toolButton" />
+          <img id="option2" src="{% static 'mapimg/icons/icon2.png' %}" type="image" onclick="switchIcon('2')" data-toggle="collapse"
+            data-target="#iconPanelCollapse" class="btn btn-xs toolButton" />
+          <img id="option3" src="{% static 'mapimg/icons/icon3.png' %}" type="image" onclick="switchIcon('3')" data-toggle="collapse"
+            data-target="#iconPanelCollapse" class="btn btn-xs toolButton" />
+          <img id="option4" src="{% static 'mapimg/icons/icon4.png' %}" type="image" onclick="switchIcon('4')" data-toggle="collapse"
+            data-target="#iconPanelCollapse" class="btn btn-xs toolButton" />
+          <img id="option5" src="{% static 'mapimg/icons/icon5.png' %}" type="image" onclick="switchIcon('5')" data-toggle="collapse"
+            data-target="#iconPanelCollapse" class="btn btn-xs toolButton" />
+          <img id="option6" src="{% static 'mapimg/icons/icon6.png' %}" type="image" onclick="switchIcon('6')" data-toggle="collapse"
+            data-target="#iconPanelCollapse" class="btn btn-xs toolButton" />
+        </div>
+      <label>选择颜色</label>
+      <img id="currentColor" src="{% static 'mapimg/colors/color1.jpg' %}" data-toggle="collapse" data-target="#colorPanelCollapse"
+        class="colorboard btn btn-xs" />
+      <div id="colorPanelCollapse" class="collapse">
+        <img id="option1" src="{% static 'mapimg/colors/color1.jpg' %}" type="image" onclick="switchColor('1')" data-toggle="collapse"
+          data-target="#colorPanelCollapse" class="btn btn-xs toolButton" />
+        <img id="option2" src="{% static 'mapimg/colors/color2.jpg' %}" type="image" onclick="switchColor('2')" data-toggle="collapse"
+          data-target="#colorPanelCollapse" class="btn btn-xs toolButton" />
+        <img id="option3" src="{% static 'mapimg/colors/color3.jpg' %}" type="image" onclick="switchColor('3')" data-toggle="collapse"
+          data-target="#colorPanelCollapse" class="btn btn-xs toolButton" />
+        <img id="option4" src="{% static 'mapimg/colors/color4.jpg' %}" type="image" onclick="switchColor('4')" data-toggle="collapse"
+          data-target="#colorPanelCollapse" class="btn btn-xs toolButton" />
+        <img id="option5" src="{% static 'mapimg/colors/color5.jpg' %}" type="image" onclick="switchColor('5')" data-toggle="collapse"
+          data-target="#colorPanelCollapse" class="btn btn-xs toolButton" />
+        <img id="option6" src="{% static 'mapimg/colors/color6.jpg' %}" type="image" onclick="switchColor('6')" data-toggle="collapse"
+          data-target="#colorPanelCollapse" class="btn btn-xs toolButton" />
+      </div>
+    </div>
+    <div id="selectCollapse" class="col-md-4 collapse">
+      <div id="SelectThenDo" class="form-inline">
+
+        <script src="{% static 'mapjs/define_select.js' %}"> updateActivityOptions(); </script>
+
+        <input id="assignActBtn" value="关联活动"data-toggle="modal" onclick="updateActivityOptions()" data-target="#activityModal" class=" btn btn-primary disabled" type="button" />
+        <div class="modal fade" id="activityModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+          aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-body">
+                <select name="现有活动" class="form-control" id="actSelect"></select>
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal"
+                  onclick="assignCurrentMarkers()">关联活动</button>
+              </div>
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal -->
+        </div>
+        <input id="AddDetailPageBtn" value="关联详情页" data-toggle="modal" data-target="#myModal2" class=" btn btn-primary disabled"type="button" />
+        <input id="DeleteBtn" value="删除" onclick="deleteCurrentMarkers()" class=" btn btn-danger disabled" type="button" />
+      </div>
+    </div>
+    <div class="col-md-3"><span></span></div>
+    <div id="DetailPageAddition" class="collapse in col-md-2">
+        <input id="PreviewBtn" class='btn btn-block btn-success' value="预览详情页"
+            onclick="previewDetailPage()" type="button" />
+    </div>
+  </div>
+  <div id="container"></div><span id="textBadge"class="badge"style='position:absolute; top:0px; left:0px; z-index: 1000;'></span>
+  <div style='position:absolute; top:110px; left:60px; background:aliceblue' id="infoDiv">
+    <button id="hideInfoDiv" type="button" class="btn btn-block btn-default">关闭</button></div>
+  <script src="{% static 'mapjs/vendor/modernizr-3.7.1.min.js' %}"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+    integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+ <!-- <script>window.jQuery || document.write('<script src="js/vendor/jquery-3.3.1.min.js"><\/script>')</script> -->
+  <script src="{% static 'mapjs/plugins.js' %}"></script>
+  <script src="{% static 'mapjs/main.js' %}"></script>
+
+  <!-- Google Analytics: change UA-XXXXX-Y to be your site's ID. -->
+  <script>
+    window.ga = function () { ga.q.push(arguments) }; ga.q = []; ga.l = +new Date;
+    ga('create', 'UA-XXXXX-Y', 'auto'); ga('set', 'transport', 'beacon'); ga('send', 'pageview')
+  </script>
+  <!--<script src="https://www.google-analytics.com/analytics.js" async defer></script>-->
+  <script charset="utf-8"
+    src="https://map.qq.com/api/js?v=2.exp&key=NTOBZ-P5VKX-HNE4Y-7YCTP-WP3UZ-VLFTQ&libraries=drawing,geometry,place,convertor,visualization"></script>
+  <script src="{% static 'mapcss/bootstrap/js/bootstrap.min.js' %}"></script>
+  <!--**********这里********** -->
+
+<!-- **********这里********** -->
+
+<script src="{% static 'mapjs/main.js' %}"></script>
+<script src="{% static 'mapjs/define.js' %}"></script>
+<script src="{% static 'mapjs/define_paint.js' %}"></script>
+<script src="{% static 'mapjs/define_select.js' %}"></script>
+<script src="{% static 'mapjs/define_save.js' %}"></script>
+<script src="{% static 'mapjs/define_bgdPicture.js' %}"></script>
+<script src="{% static 'mapjs/searchKeyWord.js' %}"></script>
+
+
+
+</body>
+
+</html>
